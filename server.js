@@ -19,7 +19,8 @@ app.use(cors({
   origin: [
     'http://localhost:5173',
     'https://vikas-frontend-eta.vercel.app',
-    'www.vikastrendz.com'
+    'https://www.vikastrendz.com',
+    'https://vikas-frontend-t7yq.vercel.app'
   ],
   credentials: true
 }));
