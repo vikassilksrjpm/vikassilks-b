@@ -19,14 +19,16 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Verify connection on server startup
-transporter.verify((err) => {
-  if (err) {
-    console.error('Email transporter error:', err.message);
-  } else {
-    console.log('Email transporter ready ✓');
-  }
-});
+// Verify connection on server startup — only in development
+if (process.env.NODE_ENV !== 'production') {
+  transporter.verify((err) => {
+    if (err) {
+      console.error('Email transporter error:', err.message);
+    } else {
+      console.log('Email transporter ready ✓');
+    }
+  });
+}
 
 const FROM = 'Vikas Silks <noreply@vikastrendz.com>';
 
