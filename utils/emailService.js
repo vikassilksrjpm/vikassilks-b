@@ -4,9 +4,9 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = 'Vikas Silks <noreply@vikastrendz.com>';
 
 const sendConfirmationEmail = async (email) => {
-  await resend.emails.send({
+  const { data, error } = await resend.emails.send({
     from: FROM,
-    to: email,
+    to: [email],
     subject: 'Welcome to Vikas Silks Newsletter! 🎉',
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">
@@ -30,6 +30,12 @@ const sendConfirmationEmail = async (email) => {
       </div>
     `,
   });
+
+  if (error) {
+    console.error('Resend error:', JSON.stringify(error))
+    throw new Error(error.message)
+  }
+  console.log('Resend email ID:', data?.id)
 };
 
 const sendBulkEmail = async (subscribers, subject, html) => {
