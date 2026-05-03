@@ -5,6 +5,7 @@ const {
   loginUser,
   getProfile,
   adminLogin,
+  changeAdminPassword,
 } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 
@@ -43,5 +44,6 @@ router.post('/register', registerValidation, registerUser);
 router.post('/login', loginValidation, loginUser);
 router.post('/admin/login', adminLogin);
 router.get('/profile', protect, getProfile);
+router.put('/admin/change-password', protect, changeAdminPassword);
 
 module.exports = router;
