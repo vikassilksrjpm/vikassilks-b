@@ -6,6 +6,7 @@ const {
   getProfile,
   adminLogin,
   changeAdminPassword,
+  changeAdminMobile,
 } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 
@@ -45,5 +46,6 @@ router.post('/login', loginValidation, loginUser);
 router.post('/admin/login', adminLogin);
 router.get('/profile', protect, getProfile);
 router.put('/admin/change-password', protect, changeAdminPassword);
+router.put('/admin/change-mobile', protect, changeAdminMobile);
 
 module.exports = router;

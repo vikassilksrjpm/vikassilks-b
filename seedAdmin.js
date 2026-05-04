@@ -14,12 +14,17 @@ const seedAdmin = async () => {
       username: 'Admin',
       email: 'admin@vikassilks.com',
       password: 'Admin@1234',
+      mobileNumber: '9999999999',
       role: 'admin',
     });
 
     console.log('Admin created successfully');
-    console.log('Email   :', admin.email);
-    console.log('Password: Admin@1234');
+    console.log('Username :', admin.username);
+    console.log('Mobile   : 9999999999');
+    console.log('Password : Admin@1234 (for email login)');
+    console.log('\nLogin via single form:');
+    console.log('  Username      : Admin');
+    console.log('  Mobile Number : 9999999999');
     process.exit(0);
   } catch (error) {
     console.error('Error seeding admin:', error);

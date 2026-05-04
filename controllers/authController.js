@@ -55,7 +55,7 @@ const registerUser = async (req, res, next) => {
   }
 };
 
-// @desc    Login user
+// @desc    Login user (handles both user and admin)
 // @route   POST /api/auth/login
 // @access  Public
 const loginUser = async (req, res, next) => {
@@ -199,10 +199,43 @@ const changeAdminPassword = async (req, res, next) => {
   }
 };
 
+// @desc    Change admin mobile number
+// @route   PUT /api/auth/admin/change-mobile
+// @access  Private (admin only)
+const changeAdminMobile = async (req, res, next) => {
+  try {
+    const { newMobileNumber, confirmMobileNumber } = req.body;
+
+    if (!newMobileNumber || !confirmMobileNumber) {
+      return res.status(400).json({ success: false, message: 'Both fields are required' });
+    }
+
+    if (!/^\d{10}$/.test(newMobileNumber)) {
+      return res.status(400).json({ success: false, message: 'Mobile number must be exactly 10 digits' });
+    }
+
+    if (newMobileNumber !== confirmMobileNumber) {
+      return res.status(400).json({ success: false, message: 'Mobile numbers do not match' });
+    }
+
+    const existing = await User.findOne({ mobileNumber: newMobileNumber });
+    if (existing && existing._id.toString() !== req.user._id.toString()) {
+      return res.status(400).json({ success: false, message: 'Mobile number already in use' });
+    }
+
+    await User.findByIdAndUpdate(req.user._id, { mobileNumber: newMobileNumber });
+
+    res.json({ success: true, message: 'Mobile number updated successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   getProfile,
   adminLogin,
   changeAdminPassword,
+  changeAdminMobile,
 };
