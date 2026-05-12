@@ -7,8 +7,17 @@ exports.getProducts = async (req, res, next) => {
     const filter = {};
     if (category) filter.category = category.toLowerCase();
     if (subcategory) filter.subcategory = subcategory.toLowerCase();
-    const products = await Product.find(filter).select('name description price image category subcategory stock tags');
+    const products = await Product.find(filter).select('name description price image category subcategory stock tags sizes');
     res.status(200).json({ success: true, products });
+  } catch (error) { next(error); }
+};
+
+// GET /api/products/:id
+exports.getProductById = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
+    res.status(200).json({ success: true, product });
   } catch (error) { next(error); }
 };
 

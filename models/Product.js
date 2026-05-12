@@ -30,7 +30,14 @@ const productSchema = new mongoose.Schema(
     tags: {
       type: [String],
       default: [],
-      // e.g. ['just-arrived', 'bridal', 'featured']
+    },
+    sizes: {
+      type: [String],
+      default: [],
+    },
+    colors: {
+      type: [String],
+      default: [],
     },
     stock: {
       type: Number,
